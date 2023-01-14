@@ -1,6 +1,6 @@
 # LBSimTSC
 
-## :tada: Our paper is accepted by DLG-AAAI'23 [https://arxiv.org/abs/2301.04838]
+## :tada: Our paper is accepted by DLG-AAAI'23 (paper)[https://arxiv.org/abs/2301.04838]
 
 ### Quick Start 
 1. Install required packages:
