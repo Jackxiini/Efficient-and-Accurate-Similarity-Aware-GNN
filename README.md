@@ -1,4 +1,4 @@
-# LBSimTSC
+# LB-SimTSC
 
 ## :tada: Check our paper [[paper]](https://arxiv.org/abs/2301.04838)
 
