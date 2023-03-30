@@ -15,7 +15,7 @@ sh create_dataset.sh
 ```
 sh train_knn.sh
 ```
-4. Train for SimTSC:
+4. Train for LB-SimTSC:
 ```
 sh train_simtsc.sh
 ```
