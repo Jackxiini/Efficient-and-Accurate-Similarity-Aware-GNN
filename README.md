@@ -11,11 +11,11 @@ pip install -r requirements.txt
 ``` 
 sh create_dataset.sh
 ```
-3. Train for DTW-1NN:
+3. Train DTW-1NN:
 ```
 sh train_knn.sh
 ```
-4. Train for LB-SimTSC:
+4. Train LB-SimTSC:
 ```
 sh train_simtsc.sh
 ```
