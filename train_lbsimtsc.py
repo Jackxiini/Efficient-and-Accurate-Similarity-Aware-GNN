@@ -85,5 +85,5 @@ if __name__ == "__main__":
         for ep in range(len(acc)):
             logger.log('--> {} Epoch {}: Test Accuracy: {:5.4f}'.format(args.dataset, 100*(ep+1), acc[ep]))
             logger.log(str(acc[ep]))
-        logger.log(str(last_acc))
+        #logger.log(str(last_acc))
         logger.log(str(time_use))
