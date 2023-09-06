@@ -23,3 +23,13 @@ python create_lb.py --dataset [DATASET]
 ```
 python train_lbsimtsc.py --dataset [DATASET] --shot [SHOT]
 ```
+
+### Cite this work
+```
+@article{xi2023lb,
+  title={LB-SimTSC: An Efficient Similarity-Aware Graph Neural Network for Semi-Supervised Time Series Classification},
+  author={Xi, Wenjie and Jain, Arnav and Zhang, Li and Lin, Jessica},
+  journal={arXiv preprint arXiv:2301.04838},
+  year={2023}
+}
+```
