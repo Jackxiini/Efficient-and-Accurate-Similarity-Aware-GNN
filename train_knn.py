@@ -10,8 +10,6 @@ ucr_dtw_mt_dir = './UCR'
 data_dir = './tmp'
 log_dir = './logs'
 
-multivariate_datasets = ['CharacterTrajectories', 'ECG', 'KickvsPunch', 'NetFlow']
-
 def knn(X, y, train_idx, test_idx, distances, logger):
     correct, total = 0, 0
     time_start = time.time()
@@ -48,10 +46,7 @@ if __name__ == "__main__":
     parser = argsparser()
     args = parser.parse_args()
 
-    if args.dataset in multivariate_datasets:
-        dtw_dir = os.path.join('datasets/multivariate') 
-    else:
-        dtw_dir = os.path.join(data_dir, 'ucr_datasets_dtw') 
+    dtw_dir = os.path.join(data_dir, 'ucr_datasets_dtw') 
     out_dir = os.path.join(log_dir, 'knn_log_'+str(args.shot)+'_shot')
     out_path = os.path.join(out_dir, args.dataset+'.txt')
     if not os.path.exists(out_dir):
@@ -59,22 +54,7 @@ if __name__ == "__main__":
     with open(out_path, 'w') as f:
         logger = Logger(f)
         # Read dtw
-        ''' original code
-        if args.dataset in multivariate_datasets:
-            distances = np.load(os.path.join(dtw_dir, args.dataset+'_dtw.npy'))
-        else:
-            distances = np.load(os.path.join(dtw_dir, args.dataset+'.npy'))
-        '''
-        if args.dataset in multivariate_datasets: # we have not implemented for multivariate datasets yet
-            pass 
-        else:
-            distances = read_dtw_mt_from_txt(ucr_dtw_mt_dir+'/'+args.dataset+'/dtw_mat.txt')
-        
-        if args.dataset in multivariate_datasets:
-            X, y, train_idx, test_idx = read_dataset_from_npy(os.path.join(data_dir, 'multivariate_datasets_'+str(args.shot)+'_shot', args.dataset+'.npy'))
-        else:
-            X, y, train_idx, test_idx = read_dataset_from_npy(os.path.join(data_dir, 'ucr_datasets_'+str(args.shot)+'_shot', args.dataset+'.npy'))
-
+        distances = read_dtw_mt_from_txt(ucr_dtw_mt_dir+'/'+args.dataset+'/dtw_mat.txt')
+        X, y, train_idx, test_idx = read_dataset_from_npy(os.path.join(data_dir, 'ucr_datasets_'+str(args.shot)+'_shot', args.dataset+'.npy'))
         acc, time_use = knn(X, y, train_idx, test_idx, distances, logger)
-
         logger.log(str(acc)+'\n'+str(time_use))
