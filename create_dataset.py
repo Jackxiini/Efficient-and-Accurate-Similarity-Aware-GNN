@@ -6,10 +6,8 @@ import numpy as np
 from src.utils import read_dataset, read_multivariate_dataset
 
 dataset_dir = './UCR'
-multivariate_dir = './datasets/multivariate'
 output_dir = './tmp'
 
-multivariate_datasets = ['CharacterTrajectories', 'ECG', 'KickvsPunch', 'NetFlow']
 
 def argsparser():
     parser = argparse.ArgumentParser("SimTSC data creator")
@@ -28,18 +26,12 @@ if __name__ == "__main__":
     np.random.seed(args.seed)
 
     # Create dirs
-    if args.dataset in multivariate_datasets:
-        output_dir = os.path.join(output_dir, 'multivariate_datasets_'+str(args.shot)+'_shot')
-    else:
-        output_dir = os.path.join(output_dir, 'ucr_datasets_'+str(args.shot)+'_shot')
+    output_dir = os.path.join(output_dir, 'ucr_datasets_'+str(args.shot)+'_shot')
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
     # Read data
-    if args.dataset in multivariate_datasets:
-        X, y, train_idx, test_idx = read_multivariate_dataset(multivariate_dir, args.dataset, args.shot)
-    else:
-        X, y, train_idx, test_idx = read_dataset(dataset_dir, args.dataset, args.shot)
+    X, y, train_idx, test_idx = read_dataset(dataset_dir, args.dataset, args.shot)
     data = {
                 'X': X,
                 'y': y,
