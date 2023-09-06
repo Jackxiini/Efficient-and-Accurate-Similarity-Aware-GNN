@@ -10,7 +10,6 @@ from src.resnet.model import ResNet, ResNetTrainer
 data_dir = './tmp'
 log_dir = './logs'
 
-multivariate_datasets = ['CharacterTrajectories', 'ECG', 'KickvsPunch', 'NetFlow']
 
 def train(X_train, y_train, X_test, y_test, device, logger):
     nb_classes = len(np.unique(np.concatenate((y_train, y_test), axis=0)))
@@ -61,10 +60,7 @@ if __name__ == "__main__":
     with open(out_path, 'w') as f:
         logger = Logger(f)
         # Read data
-        if args.dataset in multivariate_datasets:
-            X, y, train_idx, test_idx = read_dataset_from_npy(os.path.join(data_dir, 'multivariate_datasets_'+str(args.shot)+'_shot', args.dataset+'.npy'))
-        else:
-            X, y, train_idx, test_idx = read_dataset_from_npy(os.path.join(data_dir, 'ucr_datasets_'+str(args.shot)+'_shot', args.dataset+'.npy'))
+        X, y, train_idx, test_idx = read_dataset_from_npy(os.path.join(data_dir, 'ucr_datasets_'+str(args.shot)+'_shot', args.dataset+'.npy'))
 
         # Train the model
         acc = train(X[train_idx], y[train_idx], X[test_idx], y[test_idx], device, logger)
