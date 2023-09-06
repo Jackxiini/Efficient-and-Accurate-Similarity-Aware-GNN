@@ -1,5 +1,4 @@
 # LB-SimTSC
-
 ## This is the code for our [[paper]](https://arxiv.org/abs/2301.04838) accepted by DLG-AAAI'23
 
 ### Dataset
