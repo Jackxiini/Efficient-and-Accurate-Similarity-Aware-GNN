@@ -1,6 +1,6 @@
 # LB-SimTSC
 
-## :tada: Check our paper [[paper]](https://arxiv.org/abs/2301.04838)
+## This repo is for the paper [[paper]](https://arxiv.org/abs/2301.04838) which is accepted by DLG-AAAI'23
 
 ### Quick Start 
 1. Install required packages:
