@@ -12,8 +12,6 @@ ucr_dtw_mt_dir = './UCR'
 data_dir = './tmp'
 log_dir = './logs'
 
-multivariate_datasets = ['CharacterTrajectories', 'ECG', 'KickvsPunch', 'NetFlow']
-
 def train(X, y, train_idx, test_idx, distances, device, logger, K, alpha, epochs=500):
     start_time = time.time()
     nb_classes = len(np.unique(y, axis=0))
@@ -24,11 +22,11 @@ def train(X, y, train_idx, test_idx, distances, device, logger, K, alpha, epochs
     model = model.to(device)
     trainer = SimTSCTrainer(device, logger)
 
-    model, acc = trainer.fit(model, X, y, train_idx, distances, K, alpha, test_idx = test_idx, epochs = epochs)
+    model, acc, last_acc = trainer.fit(model, X, y, train_idx, distances, K, alpha, test_idx = test_idx, epochs = epochs)
     #acc = trainer.test(model, test_idx)
     end_time = time.time()
 
-    return acc, round(end_time - start_time, 4)
+    return acc, last_acc, round(end_time - start_time, 4)
 
 
 def argsparser():
@@ -36,9 +34,9 @@ def argsparser():
     parser.add_argument('--dataset', help='Dataset name', default='Coffee')
     parser.add_argument('--seed', help='Random seed', type=int, default=0)
     parser.add_argument('--gpu', type=str, default='0')
-    parser.add_argument('--shot', help='shot', type=int, default=1)
+    parser.add_argument('--shot', help='shot', type=int, default=5)
     parser.add_argument('--K', help='K', type=int, default=3)
-    parser.add_argument('--alpha', help='alpha', type=float, default=0.3)
+    parser.add_argument('--alpha', help='alpha', type=float, default=11)
     parser.add_argument('--epochs', help='epochs', type=int, default=500)
     parser.add_argument('--lb', help='If using LB, 1:True, 0:False', type=int, default=1)
 
@@ -62,47 +60,31 @@ if __name__ == "__main__":
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
 
-    ''' original code
-    if args.dataset in multivariate_datasets:
-        dtw_dir = os.path.join('datasets/multivariate') 
-        distances = np.load(os.path.join(dtw_dir, args.dataset+'_dtw.npy'))
+    if args.lb == 0:
+        distances = read_dtw_mt_from_txt(ucr_dtw_mt_dir+'/'+args.dataset+'/dtw_mat.txt')
+
+        out_dir = os.path.join(log_dir, 'simtsc_log_'+str(args.shot)+'_shot_'+str(args.K)+'_'+str(args.alpha)+'_'+str(args.epochs))  
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
+        out_path = os.path.join(out_dir, args.dataset+'_'+str(args.seed)+'_shot_'+str(args.shot)+'.txt')  # fix dir problem
     else:
         dtw_dir = os.path.join(data_dir, 'ucr_datasets_dtw') 
         distances = np.load(os.path.join(dtw_dir, args.dataset+'.npy'))
-    '''
-    if args.lb == 0:
-        if args.dataset in multivariate_datasets: # we have not implemented for multivariate datasets yet
-            pass 
-        else:
-            distances = read_dtw_mt_from_txt(ucr_dtw_mt_dir+'/'+args.dataset+'/dtw_mat.txt')
 
-            out_dir = os.path.join(log_dir, 'simtsc_log_'+str(args.shot)+'_shot_'+str(args.K)+'_'+str(args.alpha)+'_'+str(args.epochs))  # add a '_' after shot, ##+'_'+str(args.epochs)##
-            if not os.path.exists(out_dir):
-                os.makedirs(out_dir)
-            out_path = os.path.join(out_dir, args.dataset+'_'+str(args.seed)+'_shot_'+str(args.shot)+'.txt')  # fix dir problem
-    else:
-        if args.dataset in multivariate_datasets: # we have not implemented for multivariate datasets yet
-            pass
-        else:
-            dtw_dir = os.path.join(data_dir, 'ucr_datasets_dtw') 
-            distances = np.load(os.path.join(dtw_dir, args.dataset+'.npy'))
-
-            out_dir = os.path.join(log_dir, 'simtsc_log_'+str(args.shot)+'_shot_'+str(args.K)+'_'+str(args.alpha)+'_'+str(args.epochs)+'_lb_finetune')  # add a '_' after shot, ##+'_'+str(args.epochs)##
-            if not os.path.exists(out_dir):
-                os.makedirs(out_dir)
-            out_path = os.path.join(out_dir, args.dataset+'_'+str(args.seed)+'_shot_'+str(args.shot)+'.txt')  # fix dir problem
+        out_dir = os.path.join(log_dir, 'simtsc_log_'+str(args.shot)+'_shot_'+str(args.K)+'_'+str(args.alpha)+'_'+str(args.epochs)+'_lb_finetune')  
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
+        out_path = os.path.join(out_dir, args.dataset+'_'+str(args.seed)+'_shot_'+str(args.shot)+'.txt')  # fix dir problem
 
     with open(out_path, 'w') as f:
         logger = Logger(f)
         # Read data
-        if args.dataset in multivariate_datasets:
-            X, y, train_idx, test_idx = read_dataset_from_npy(os.path.join(data_dir, 'multivariate_datasets_'+str(args.shot)+'_shot', args.dataset+'.npy'))
-        else:
-            X, y, train_idx, test_idx = read_dataset_from_npy(os.path.join(data_dir, 'ucr_datasets_'+str(args.shot)+'_shot', args.dataset+'.npy'))
+        X, y, train_idx, test_idx = read_dataset_from_npy(os.path.join(data_dir, 'ucr_datasets_'+str(args.shot)+'_shot', args.dataset+'.npy'))
 
         # Train the model
-        acc, time_use = train(X, y, train_idx, test_idx, distances, device, logger, args.K, args.alpha, epochs=args.epochs)
+        acc, last_acc, time_use = train(X, y, train_idx, test_idx, distances, device, logger, args.K, args.alpha, epochs=args.epochs)
         for ep in range(len(acc)):
             logger.log('--> {} Epoch {}: Test Accuracy: {:5.4f}'.format(args.dataset, 100*(ep+1), acc[ep]))
             logger.log(str(acc[ep]))
+        logger.log(str(last_acc))
         logger.log(str(time_use))
