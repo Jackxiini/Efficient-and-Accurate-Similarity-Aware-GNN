@@ -5,7 +5,7 @@ import numpy as np
 
 from src.utils import read_dataset, read_multivariate_dataset
 
-dataset_dir = '../UCR'
+dataset_dir = './UCR'
 multivariate_dir = './datasets/multivariate'
 output_dir = './tmp'
 
