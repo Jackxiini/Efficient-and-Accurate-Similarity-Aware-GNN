@@ -11,9 +11,9 @@ pip install -r requirements.txt
 ``` 
 python create_dataset.py --dataset [DATASET] --shot [SHOT] --seed [SEED]
 ```
-3. Train DTW-1NN:
-```
-python train_knn.py --dataset [DATASET] --shot [SHOT]
+3. Prepare LB pairwise matrix:
+``` 
+python create_lb.py --dataset [DATASET]
 ```
 4. Train LB-SimTSC:
 ```
