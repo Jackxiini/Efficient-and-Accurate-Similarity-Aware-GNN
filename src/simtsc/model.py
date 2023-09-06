@@ -48,6 +48,7 @@ class SimTSCTrainer:
 
         best_acc = 0.0
         accs = []
+        last_ten_acc = []
         # Training
         for epoch in range(epochs):
             model.train()
@@ -74,15 +75,22 @@ class SimTSCTrainer:
                 test_acc = self.test(model, test_idx)
                 accs.append(test_acc)
                 self.logger.log('--> Epoch {}: loss {:5.4f}; accuracy: {:5.4f}; best accuracy: {:5.4f}; test accuracy: {:5.4f}'.format(epoch, loss.item(), acc, best_acc, test_acc))
-            else:
-                self.logger.log('--> Epoch {}: loss {:5.4f}; accuracy: {:5.4f}; best accuracy: {:5.4f}'.format(epoch, loss.item(), acc, best_acc))
+            '''
+            #print the last 10 epoch's accuracy
+            if report_test and epoch in range(epochs-10, epochs):
+                model.load_state_dict(torch.load(file_path))
+                test_acc = self.test(model, test_idx)
+                last_ten_acc.append(test_acc)
+                self.logger.log('--> Epoch {}: loss {:5.4f}; accuracy: {:5.4f}; best accuracy: {:5.4f}; test accuracy: {:5.4f}'.format(epoch, loss.item(), acc, best_acc, test_acc))
+            '''
+            self.logger.log('--> Epoch {}: loss {:5.4f}; accuracy: {:5.4f}; best accuracy: {:5.4f}'.format(epoch, loss.item(), acc, best_acc))
         
         # Load the best model
         
         model.eval()
         os.remove(file_path)
 
-        return model, accs
+        return model, accs, last_ten_acc
     
     def test(self, model, test_idx, batch_size=128):
         test_batch_size = min(batch_size//2, len(test_idx))
