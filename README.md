@@ -9,7 +9,7 @@ pip install -r requirements.txt
 ```
 2. Prepare few shot datasets:
 ``` 
-sh create_dataset.sh
+python create_dataset.py --dataset [DATASET] --shot [SHOT] --seed [SEED]
 ```
 3. Train DTW-1NN:
 ```
