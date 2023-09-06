@@ -1,9 +1,7 @@
 import os
 import argparse
 import time
-
 import numpy as np
-
 from src.utils import read_dataset_from_npy, Logger, read_dtw_mt_from_txt
 
 ucr_dtw_mt_dir = './UCR'
