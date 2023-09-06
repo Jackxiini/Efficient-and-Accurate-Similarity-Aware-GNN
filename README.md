@@ -13,9 +13,9 @@ sh create_dataset.sh
 ```
 3. Train DTW-1NN:
 ```
-sh train_knn.sh
+python train_knn.py --dataset [DATASET] --shot [SHOT]
 ```
 4. Train LB-SimTSC:
 ```
-sh train_simtsc.sh
+python train_lbsimtsc.py --dataset [DATASET] --shot [SHOT]
 ```
