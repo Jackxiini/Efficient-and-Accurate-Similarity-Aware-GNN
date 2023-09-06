@@ -3,8 +3,7 @@ import argparse
 
 import numpy as np
 
-from src.utils import read_dataset, read_multivariate_dataset
-
+from src.utils import read_dataset
 dataset_dir = './UCR'
 output_dir = './tmp'
 
