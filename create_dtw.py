@@ -1,13 +1,10 @@
 import os
 import argparse
-
 import numpy as np
-
 from src.utils import read_X
-
 import dtw
 
-dataset_dir = './datasets/UCRArchive_2018'
+dataset_dir = './UCR'
 output_dir = './tmp'
 
 def argsparser():
