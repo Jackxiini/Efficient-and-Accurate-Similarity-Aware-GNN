@@ -21,9 +21,9 @@ python create_dataset.py --dataset [DATASET] --shot [SHOT] --seed [SEED]
 ``` 
 python create_lb.py --dataset [DATASET]
 ```
-4. Train LB-SimTSC:
+4. Train our model:
 ```
-python train_lbsimtsc.py --dataset [DATASET] --shot [SHOT]
+python train.py --dataset [DATASET] --shot [SHOT]
 ```
 
 ### Cite this work
