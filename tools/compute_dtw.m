@@ -1,6 +1,6 @@
 function [dtw_mat, time1] = compute_dtw(data_name)
-coffee_train = load(['UCR/' data_name '/' data_name '_TRAIN.tsv']);
-coffee_test = load(['UCR/' data_name '/' data_name '_TEST.tsv']);
+coffee_train = load(['../UCR/' data_name '/' data_name '_TRAIN.tsv']);
+coffee_test = load(['../UCR/' data_name '/' data_name '_TEST.tsv']);
 
 train_label = coffee_train(:,1);
 test_label = coffee_test(:,1);
