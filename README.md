@@ -28,10 +28,12 @@ python train.py --dataset [DATASET] --shot [SHOT]
 
 ### Cite this work
 ```
-@article{xi2023lb,
-  title={LB-SimTSC: An Efficient Similarity-Aware Graph Neural Network for Semi-Supervised Time Series Classification},
+@inproceedings{xi2024efficient,
+  title={Efficient and Accurate Similarity-Aware Graph Neural Network for Semi-supervised Time Series Classification},
   author={Xi, Wenjie and Jain, Arnav and Zhang, Li and Lin, Jessica},
-  journal={arXiv preprint arXiv:2301.04838},
-  year={2023}
+  booktitle={Pacific-Asia Conference on Knowledge Discovery and Data Mining},
+  pages={276--287},
+  year={2024},
+  organization={Springer}
 }
 ```
