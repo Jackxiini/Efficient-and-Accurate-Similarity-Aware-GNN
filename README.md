@@ -3,7 +3,7 @@ SimTSC is a novel method for time series semi-supervised learning that uses a gr
 
 ![Overall Architecture](overview.png)
 
-## This [[paper]](https://arxiv.org/abs/2301.04838) is accepted by PAKDD'24
+## This [[paper]](https://link.springer.com/chapter/10.1007/978-981-97-2266-2_22) is accepted by PAKDD'24
 
 ### Dataset
 We use UCR Time Series Classification Archive. You can download the full UCR datasets from [[here]](https://www.cs.ucr.edu/~eamonn/time_series_data_2018/).
